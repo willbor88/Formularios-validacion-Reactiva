@@ -1,0 +1,70 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <form [formGroup]="miFormulario" (ngSubmit)="Submit()">
+        <div formGroupName="DatosUsuario">
+           <div class="form-group">
+          <label for="NombreUsuario">NombreUsuario</label>
+          <input
+            type="text"
+            id="NombreUsuario"
+            class="form-control"
+            formControlName="NombreUsuario" 
+            >
+            
+            <!-- Podemos acceder al cada control y validar el objeto de cada control y analizar el valor de la propiedad erros y segun el error mostrar diferente feedback al usuario --> 
+            <span
+            *ngIf="!miFormulario.get('DatosUsuario.NombreUsuario').valid && miFormulario.get('DatosUsuario.NombreUsuario').touched "
+              class="help-block">Este campo es requerido.
+              <span *ngIf="miFormulario.get('DatosUsuario.NombreUsuario').errors['NombreInvalido']">El usuario es invalido </span>
+              <span *ngIf="miFormulario.get('DatosUsuario.NombreUsuario').errors['required']"></span>
+            </span>
+            
+           
+          
+        </div>
+        <div class="form-group">
+          <label for="email">email</label>
+          <input
+            type="text"
+            id="email"
+            class="form-control"
+            formControlName="email">
+        </div>
+        <span
+          *ngIf="!miFormulario.get('DatosUsuario.email').valid && miFormulario.get('DatosUsuario.email').touched "
+            class="help-block">Ingresa un email valido
+          </span>
+      </div>
+       
+        
+        <div class="radio" *ngFor="let gender of genero">
+          <label>
+            <input
+              type="radio"
+              [value]="gender"
+              formControlName="gender">{{ gender }}
+          </label>
+        </div>
+        <div  formArrayName="hobby">
+          <h4>HOBBIES</h4>
+          <button class="btn btn-dafault" type="button" (click)="anadirHobby()">Añadir Hobby</button>
+          <!--  miFormulario.get('hobby').controls Accedo a mi objeto formulario y duplico su propiedad controls-->
+          <div class="form-group"
+          *ngFor="let ControlesHobby of miFormulario.get('hobby').controls let i= index">
+            <input type="text" class="form-control" [formControlName]="i" >
+          </div>
+        </div>
+
+        <span
+          *ngIf="!miFormulario.valid && miFormulario.touched "
+            class="help-block">Debes llenar todos los campos
+          </span>
+        <button class="btn btn-primary" type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
